@@ -7,6 +7,10 @@ export default function SignUpPage(){
         <Container>
             <h1>MyWallet</h1>
             <input
+                type="text"
+                placeholder="Nome"
+            ></input>
+            <input
                 type="email"
                 placeholder="E-mail"
             ></input>
@@ -14,9 +18,13 @@ export default function SignUpPage(){
                 type="password"
                 placeholder="Senha"
             ></input>
+            <input
+                type="password"
+                placeholder="Confirme a senha"
+            ></input>
             <button>Entrar</button>
-            <Link to={"/signup"}>
-                <h2>Primeira vez? Cadastre-se!</h2>
+            <Link to={"/"}>
+                <h2>Já tem uma conta? Entre agora!</h2>
             </Link>
         </Container>
     )
