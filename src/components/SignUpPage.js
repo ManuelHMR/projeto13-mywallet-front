@@ -36,7 +36,7 @@ const Container = styled.div`
     position: absolute;
     top: 0px;
     left: 0px;
-    background-color: #8C11BE;
+    background-color: var(--primaryColor);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,7 +63,7 @@ const Container = styled.div`
         width: 326px;
         height: 46px;
         color: #ffffff;
-        background-color: #A328D6;
+        background-color: var(--secondaryColor);
         border: none;
         border-radius: 5px;
         font-weight: 700;

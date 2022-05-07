@@ -3,3 +3,8 @@
     font-family: 'Raleway';
     text-decoration: none;
 }
+:root{
+    --primaryColor: #8C11BE;
+    --secondaryColor: #A328D6;
+
+}
