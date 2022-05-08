@@ -9,12 +9,25 @@ const URLPOST = "http://localhost:5000/signup"
 export default function SignUpPage(){
 
     const navigate = useNavigate();
+    const [loading, setloading] = useState(false);
     const [user, setUser] = useState({
         name: "",
         email: "",
         password: "",
         confirmPassword: ""
     });
+
+    function Button(){
+        if(!loading){
+            return (
+                <button onClick={() => verifyInput()}>Cadastrar</button>
+            )
+        }else{
+            return (
+                <div className='loading' />
+            )
+        }
+    }
     
     function verifyInput(){
 
@@ -25,24 +38,23 @@ export default function SignUpPage(){
             password: joi.string().required(),
             confirmPassword: joi.ref('password')
         });
-
         const validation = userSchema.validate(user);
         if(validation.error){
-            
             console.log(validation.error)
             return alert("Todos os campos devem ser preenchidos corretamente") 
         }
-
         post();
-        
     };
 
     function post(){
+        setloading(true)
         delete user.confirmPassword;
         let promise = axios.post(URLPOST, user);
-        promise
-            .then(() => navigate("/"))
-            .catch(err => console.log(err))
+        promise.then(() => {
+                alert("Conta cadastrada com sucesso!")
+                navigate("/")
+            })
+        promise.catch(err => console.log(err))
     };
 
     return(
@@ -80,7 +92,7 @@ export default function SignUpPage(){
                     setUser({...user, confirmPassword: event.target.value})
                 }}
             ></input>
-            <button onClick={() => verifyInput()}>Entrar</button>
+            <Button></Button>
             <Link to={"/"}>
                 <h2>Já tem uma conta? Entre agora!</h2>
             </Link>
@@ -134,6 +146,20 @@ const Container = styled.div`
         font-weight: 700;
         font-size: 15px;
         color: #ffffff;
+    }
+    .loading {
+        animation: is-rotating 1s infinite;
+        width: 50px;
+        height: 50px;
+        border: 6px solid var(--primaryColor);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        margin: 15px;
+    }
+    @keyframes is-rotating {
+        to {
+            transform: rotate(1turn);
+        }
     }
 `
 

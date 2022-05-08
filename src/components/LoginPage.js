@@ -9,12 +9,26 @@ const URLPOST = "http://localhost:5000/signin"
 export default function LoginPage(){
 
     const navigate = useNavigate();
+    const [loading, setloading] = useState(false)
     const [user, setUser] = useState({
         email: "",
         password: ""
     })
 
+    function Button(){
+        if(!loading){
+            return (
+                <button onClick={() => verifyInput()}>Entrar</button>
+            )
+        }else{
+            return (
+                <div className='loading' />
+            )
+        }
+    }
+
     function verifyInput(){
+
         const userSchema = joi.object({
             email: joi.string().required(),
             password: joi.string().required(),
@@ -27,6 +41,7 @@ export default function LoginPage(){
     }
 
     function post(){
+        setloading(true)
         let promise = axios.post(URLPOST, user);
         promise
             .then(() => navigate("/balance"))
@@ -41,7 +56,7 @@ export default function LoginPage(){
                 placeholder="E-mail"
                 value={user.email}
                 onChange={(event) =>{
-                    setUser({...user.email, email: event.target.value})
+                    setUser({...user, email: event.target.value})
                 }}
             ></input>
             <input
@@ -49,10 +64,10 @@ export default function LoginPage(){
                 placeholder="Senha"
                 value={user.password}
                 onChange={(event) =>{
-                    setUser({...user.password, password: event.target.value})
+                    setUser({...user, password: event.target.value})
                 }}
             ></input>
-            <button onClick={() => verifyInput()}>Entrar</button>
+            <Button></Button>
             <Link to={"/signup"}>
                 <h2>Primeira vez? Cadastre-se!</h2>
             </Link>
@@ -106,5 +121,19 @@ const Container = styled.div`
         font-weight: 700;
         font-size: 15px;
         color: #ffffff;
+    }
+    .loading {
+        animation: is-rotating 1s infinite;
+        width: 50px;
+        height: 50px;
+        border: 6px solid var(--primaryColor);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        margin: 15px;
+    }
+    @keyframes is-rotating {
+        to {
+            transform: rotate(1turn);
+        }
     }
 `
