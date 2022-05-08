@@ -3,7 +3,9 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
-import Balance from "./components/Balance";
+import BalancePage from "./components/BalancePage";
+import ExpensePage from "./components/ExpensePage";
+import IncomePage from "./components/IncomePage";
 
 import "./style.css";
 
@@ -13,9 +15,9 @@ function App(){
             <Routes>
                 <Route path={"/"} element={<LoginPage />}></Route>
                 <Route path={"/signup"} element={<SignUpPage />}></Route>
-                <Route path={"/balance"} element={<Balance />}></Route>
-                {/* <Route path={"/revenue"} element={}></Route>
-                <Route path={"/expense"} element={}></Route> */}
+                <Route path={"/balance"} element={<BalancePage />}></Route>
+                <Route path={"/income"} element={<IncomePage/>}></Route>
+                <Route path={"/expense"} element={<ExpensePage/>}></Route>
             </Routes>
         </BrowserRouter>
     )

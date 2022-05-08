@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 
-export default function Balance(){
+export default function BalancePage(){
     return (
         <Container>
             <header>
@@ -12,13 +12,13 @@ export default function Balance(){
                 <h3>Não há registros de <br/>entrada ou saída</h3>
             </main>
             <footer>
-                <Link to={"/"}>
+                <Link to={"/income"}>
                     <button>
                         <ion-icon name="add-circle-outline"></ion-icon>
                         <h2>Nova <br/> entrada</h2>
                     </button>
                 </Link>
-                <Link to={"/"}>
+                <Link to={"/expense"}>
                     <button>
                         <ion-icon name="remove-circle-outline"></ion-icon>
                         <h2>Nova <br/> saída</h2>

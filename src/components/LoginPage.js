@@ -1,18 +1,31 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom"
+import { useState } from "react";
 
 
 export default function LoginPage(){
+    const [user, setUser] = useState({
+        email: "",
+        password: ""
+    })
     return(
         <Container>
             <h1>MyWallet</h1>
             <input
                 type="email"
                 placeholder="E-mail"
+                value={user.email}
+                onChange={(event) =>{
+                    setUser({...user.email, email: event.target.value})
+                }}
             ></input>
             <input
                 type="password"
                 placeholder="Senha"
+                value={user.password}
+                onChange={(event) =>{
+                    setUser({...user.password, password: event.target.value})
+                }}
             ></input>
             <button>Entrar</button>
             <Link to={"/signup"}>
