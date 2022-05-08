@@ -1,13 +1,38 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { useState } from "react";
+import axios from "axios";
+import joi from "joi";
 
+const URLPOST = "http://localhost:5000/signin"
 
 export default function LoginPage(){
+
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         email: "",
         password: ""
     })
+
+    function verifyInput(){
+        const userSchema = joi.object({
+            email: joi.string().required(),
+            password: joi.string().required(),
+        });
+        const validation = userSchema.validate(user);
+        if(validation.error){
+            return alert("Preencha todos os dados!")
+        }
+        post();
+    }
+
+    function post(){
+        let promise = axios.post(URLPOST, user);
+        promise
+            .then(() => navigate("/balance"))
+            .catch(err => console.log(err))
+    }
+
     return(
         <Container>
             <h1>MyWallet</h1>
@@ -27,7 +52,7 @@ export default function LoginPage(){
                     setUser({...user.password, password: event.target.value})
                 }}
             ></input>
-            <button>Entrar</button>
+            <button onClick={() => verifyInput()}>Entrar</button>
             <Link to={"/signup"}>
                 <h2>Primeira vez? Cadastre-se!</h2>
             </Link>
