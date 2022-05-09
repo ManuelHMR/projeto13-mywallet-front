@@ -9,7 +9,8 @@ const URLGET = "http://localhost:5000/balance"
 export default function BalancePage(){
     const navigate = useNavigate();
     const [tokenValidation, setTokenValidation] = useState(false);
-    const [userBalanceData, setuserBalanceData] = useState();
+    const [userBalanceData, setuserBalanceData] = useState([]);
+    const [total, setTotal] = useState(0)
     const [userName, setUserName] = useState("")
     let token = localStorage.getItem('token');
 
@@ -20,6 +21,7 @@ export default function BalancePage(){
             setTokenValidation(true);
             setuserBalanceData(arr)
             setUserName(res.data.name);
+            setTotal(res.data.total);
         }).catch(err => {
             alert("Erro: não foi possível validar sua sessão.")
             navigate("/")
@@ -83,7 +85,7 @@ export default function BalancePage(){
             </Container>
         )
         function Main(){
-            if(!userBalanceData){
+            if(userBalanceData.length === 0){
                 return (
                     <div className="centralizer">
                         <h3>Não há registros de <br/>entrada ou saída</h3>
@@ -92,16 +94,22 @@ export default function BalancePage(){
             };
             if(userBalanceData){
                 return (
-                    <div className="transaction-list">
-                        {userBalanceData.map(element => {
-                            return(
-                                <div className="line" key={element._id}>
-                                    <p className="date">01/01</p>
-                                    <p className="description">{element.description}</p>
-                                    <p className={`value ${element.type === "income"? "green" : "red"}`}>{element.value}</p>
-                                </div>
-                            )
-                        })}
+                    <div className="box">
+                        <div className="transaction-list">
+                            {userBalanceData.map(element => {
+                                return(
+                                    <div className="line" key={element._id}>
+                                        <p className="date">{element.date}</p>
+                                        <p className="description">{element.description}</p>
+                                        <p className={`value ${element.type === "income"? "green" : "red"}`}>{element.value}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className="total">
+                            <p className="totalTitle">SALDO</p>
+                            <p className={`totalNumber ${Number(total) >= 0? "green":"red"}`}>{total}</p>
+                        </div>
                     </div>
                 )
             };
@@ -170,6 +178,26 @@ const Container = styled.div`
                     transform: rotate(1turn);
                 }
             }
+        .box{
+            width: 326px;
+            height: 446px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }    
+        .total{
+            padding: 0 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .totalTitle{
+            font-weight: 700;
+            font-size: 17px;
+        }
+        .totalNumber{
+            font-weight: 400;
+            font-size: 17px;
+        }
         .line{
             width: 326px;
             display: flex;
