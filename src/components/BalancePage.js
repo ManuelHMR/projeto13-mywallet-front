@@ -1,13 +1,31 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import axios from "axios";
+import {Link, useNavigate} from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
+
+const URLGET = "http://localhost:5000/balance"
 
 export default function BalancePage(){
+    const navigate = useNavigate();
+    const [tokenValidation, setTokenValidation] = useState(false);
+    const [userBalanceData, setuserBalanceData] = useState(false);
+    const [userName, setUserName] = useState("")
+    let token = localStorage.getItem('token');
 
-    const [tokenValidation, setTokenValidation] = useState(false); 
+    useEffect( () => {
+        let promise = axios.get(URLGET, {headers:{token}});
+        promise.then(res => {
+            setTokenValidation(true)
+            setUserName(res.data);
+        }).catch(err => {
+            alert("Erro: não foi possível validar sua sessão.")
+            navigate("/")
+            console.log(err)});
+    });
 
-    let token = JSON.parse(localStorage.getItem('token'));
-    console.log(token)
+    
+
     if(!tokenValidation){
         return (
             <Container>
@@ -16,7 +34,9 @@ export default function BalancePage(){
                     <ion-icon name="log-out-outline"></ion-icon>
                 </header>
                 <main>
-                    <div className='loading' />
+                    <div className="centralizer">
+                        <div className='loading' />
+                    </div>
                 </main>
                 <footer>
                     <Link to={"/income"}>
@@ -34,16 +54,16 @@ export default function BalancePage(){
                 </footer>
             </Container>
         );    
-    }
+    };
     if (tokenValidation){
         return (
             <Container>
                 <header>
-                    <h1>Olá, Fulano</h1>
+                    <h1>Olá, {userName}!</h1>
                     <ion-icon name="log-out-outline"></ion-icon>
                 </header>
                 <main>
-                    <h3>Não há registros de <br/>entrada ou saída</h3>
+                    <Main></Main>
                 </main>
                 <footer>
                     <Link to={"/income"}>
@@ -61,8 +81,21 @@ export default function BalancePage(){
                 </footer>
             </Container>
         )
-    }
-    
+        function Main(){
+            if(!userBalanceData){
+                return (
+                    <div className="centralizer">
+                        <h3>Não há registros de <br/>entrada ou saída</h3>
+                    </div>
+                )
+            };
+            if(userBalanceData){
+                return (
+                    <></>
+                )
+            };
+        }
+    };
 }
 
 const Container = styled.div`
@@ -98,8 +131,14 @@ const Container = styled.div`
         border-radius: 5px;
         margin-bottom: 13px;
         display: flex;
-        align-items: center;
         justify-content: center;
+        .centralizer{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         h3{
             text-align: center;
             font-weight: 400;

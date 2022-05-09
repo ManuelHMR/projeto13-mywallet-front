@@ -45,7 +45,8 @@ export default function LoginPage(){
         let promise = axios.post(URLPOST, user);
         promise
             .then((res) => {
-                localStorage.setItem('token', JSON.stringify(res.data))
+                console.log(res.data)
+                localStorage.setItem('token', res.data)
                 navigate("/balance")
             })
             .catch(err => console.log(err))
