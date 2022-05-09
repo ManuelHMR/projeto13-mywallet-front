@@ -34,7 +34,10 @@ export default function IncomePage(){
         promise.then(res => {
             alert('Entrada salva com sucesso!');
             navigate("/balance")
-        }).catch(err => console.log(err))    
+        }).catch(err => {
+            console.log(err)
+            setloading(false)
+        })    
     };
 
     return(

@@ -49,7 +49,10 @@ export default function LoginPage(){
                 localStorage.setItem('token', res.data)
                 navigate("/balance")
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                setloading(false);
+            })
     }
 
     return(

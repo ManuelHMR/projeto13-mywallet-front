@@ -54,7 +54,10 @@ export default function SignUpPage(){
                 alert("Conta cadastrada com sucesso!")
                 navigate("/")
             })
-        promise.catch(err => console.log(err))
+        promise.catch(err => {
+            console.log(err)
+            setloading(false);
+        })
     };
 
     return(

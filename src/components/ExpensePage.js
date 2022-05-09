@@ -29,12 +29,20 @@ export default function ExpensePage(){
         }
     }
     function post(){
-        setloading(true);
-        let promise = axios.post(URLPOST, newTrasaction, {headers:{token}});
-        promise.then(res => {
-            alert('Saída salva com sucesso!');
-            navigate("/balance")
-        }).catch(err => console.log(err))  
+        if(newTrasaction.value && newTrasaction.description){
+            setloading(true);
+            let promise = axios.post(URLPOST, newTrasaction, {headers:{token}});
+            promise.then(res => {
+                alert('Saída salva com sucesso!');
+                navigate("/balance")
+            }).catch(err => {
+                console.log(err)
+                setloading(false)
+            });      
+        }else{
+            alert("Preencha os dados corretamente!")
+        }
+        
     };
 
     return(
