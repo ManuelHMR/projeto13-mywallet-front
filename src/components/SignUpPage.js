@@ -4,7 +4,7 @@ import { useState } from "react";
 import joi from "joi";
 import axios from "axios";
 
-const URLPOST = "http://localhost:5000/signup"
+const URLPOST = "https://git.heroku.com/my-wallet-manuelhmr.git/signup"
 
 export default function SignUpPage(){
 

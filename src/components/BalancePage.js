@@ -4,8 +4,8 @@ import {Link, useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const URLGET = "http://localhost:5000/balance"
-const URLSIGNOUT ="http://localhost:5000/signout"
+const URLGET = "https://git.heroku.com/my-wallet-manuelhmr.git/balance"
+const URLSIGNOUT ="https://git.heroku.com/my-wallet-manuelhmr.git/signout"
 
 export default function BalancePage(){
     const navigate = useNavigate();
