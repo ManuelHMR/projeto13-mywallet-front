@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const URLPOST = "https://git.heroku.com/my-wallet-manuelhmr.git/balance";
+const URLPOST = "https://my-wallet-manuelhmr.herokuapp.com/balance";
 let token = localStorage.getItem('token');
 
 export default function ExpensePage(){
