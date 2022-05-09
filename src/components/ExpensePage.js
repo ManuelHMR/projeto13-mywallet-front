@@ -29,9 +29,9 @@ export default function ExpensePage(){
         }
     }
     function post(){
+        setloading(true);
         let promise = axios.post(URLPOST, newTrasaction, {headers:{token}});
         promise.then(res => {
-            setloading(false)
             alert('Saída salva com sucesso!');
             navigate("/balance")
         }).catch(err => console.log(err))  
