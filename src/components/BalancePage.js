@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const URLGET = "http://localhost:5000/balance"
+const URLSIGNOUT ="http://localhost:5000/signout"
 
 export default function BalancePage(){
     const navigate = useNavigate();
@@ -28,6 +29,14 @@ export default function BalancePage(){
             console.log(err)});
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, ["mounting"]);
+
+    function signOut(){
+        let promise = axios.get(URLSIGNOUT, {headers: {token}});
+        promise.then(res => {
+            alert("Sessão encerrada!")
+            navigate("/")
+        }).catch(err => console.log(err))
+    }
 
     if(!tokenValidation){
         return (
@@ -63,7 +72,7 @@ export default function BalancePage(){
             <Container>
                 <header>
                     <h1>Olá, {userName}!</h1>
-                    <ion-icon name="log-out-outline"></ion-icon>
+                    <ion-icon onClick={() => signOut()} name="log-out-outline"></ion-icon>
                 </header>
                 <main>
                     <Main></Main>
