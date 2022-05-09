@@ -9,22 +9,23 @@ const URLGET = "http://localhost:5000/balance"
 export default function BalancePage(){
     const navigate = useNavigate();
     const [tokenValidation, setTokenValidation] = useState(false);
-    const [userBalanceData, setuserBalanceData] = useState(false);
+    const [userBalanceData, setuserBalanceData] = useState();
     const [userName, setUserName] = useState("")
     let token = localStorage.getItem('token');
 
     useEffect( () => {
         let promise = axios.get(URLGET, {headers:{token}});
         promise.then(res => {
-            setTokenValidation(true)
-            setUserName(res.data);
+            let arr = res.data.userBalance
+            setTokenValidation(true);
+            setuserBalanceData(arr)
+            setUserName(res.data.name);
         }).catch(err => {
             alert("Erro: não foi possível validar sua sessão.")
             navigate("/")
             console.log(err)});
-    });
-
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, ["mounting"]);
 
     if(!tokenValidation){
         return (
@@ -91,7 +92,17 @@ export default function BalancePage(){
             };
             if(userBalanceData){
                 return (
-                    <></>
+                    <div className="transaction-list">
+                        {userBalanceData.map(element => {
+                            return(
+                                <div className="line" key={element._id}>
+                                    <p className="date">01/01</p>
+                                    <p className="description">{element.description}</p>
+                                    <p className={`value ${element.type === "income"? "green" : "red"}`}>{element.value}</p>
+                                </div>
+                            )
+                        })}
+                    </div>
                 )
             };
         }
@@ -159,6 +170,32 @@ const Container = styled.div`
                     transform: rotate(1turn);
                 }
             }
+        .line{
+            width: 326px;
+            display: flex;
+            justify-content: space-between;
+            height: 30px;
+        }
+        .date{
+            width: 48px;
+            padding-left: 12px;
+            color: #C6C6C6;
+        }    
+        .description{
+            width: 147px;
+            text-align: left;
+        }
+        .value{
+            width: 100px;
+            text-align: right;
+            padding-right: 12px;
+        }
+        .red{
+            color: red;
+        }
+        .green{
+            color: green;
+        }
     }
     footer{
         display: flex;

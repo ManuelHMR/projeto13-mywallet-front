@@ -1,12 +1,20 @@
 import styled from "styled-components";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const URLPOST = "http://localhost:5000/balance";
+let token = localStorage.getItem('token');
 
 export default function ExpensePage(){
+
+    const navigate = useNavigate();
 
     const [loading, setloading] = useState(false);
     const [newTrasaction, setNewTransaction] = useState({
         description: "",
         value: undefined,
+        type: "expense"
     })
 
     function Button(){
@@ -21,7 +29,12 @@ export default function ExpensePage(){
         }
     }
     function post(){
-
+        let promise = axios.post(URLPOST, newTrasaction, {headers:{token}});
+        promise.then(res => {
+            setloading(false)
+            alert('Saída salva com sucesso!');
+            navigate("/balance")
+        }).catch(err => console.log(err))  
     };
 
     return(
@@ -89,4 +102,18 @@ const Container = styled.div`
         font-size: 20px;
         margin-bottom: 36px;
     }
+    .loading {
+        animation: is-rotating 1s infinite;
+        width: 50px;
+        height: 50px;
+        border: 6px solid var(--primaryColor);
+        border-top-color: #FFFFFF;
+        border-radius: 50%;
+        margin: 15px;
+        }
+        @keyframes is-rotating {
+            to {
+                transform: rotate(1turn);
+            }
+        }
 `
