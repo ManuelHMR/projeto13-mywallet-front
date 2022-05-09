@@ -1,32 +1,68 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import { useState } from "react";
 
 export default function BalancePage(){
-    return (
-        <Container>
-            <header>
-                <h1>Olá, Fulano</h1>
-                <ion-icon name="log-out-outline"></ion-icon>
-            </header>
-            <main>
-                <h3>Não há registros de <br/>entrada ou saída</h3>
-            </main>
-            <footer>
-                <Link to={"/income"}>
-                    <button>
-                        <ion-icon name="add-circle-outline"></ion-icon>
-                        <h2>Nova <br/> entrada</h2>
-                    </button>
-                </Link>
-                <Link to={"/expense"}>
-                    <button>
-                        <ion-icon name="remove-circle-outline"></ion-icon>
-                        <h2>Nova <br/> saída</h2>
-                    </button>
-                </Link>
-            </footer>
-        </Container>
-    )
+
+    const [tokenValidation, setTokenValidation] = useState(false); 
+
+    let token = JSON.parse(localStorage.getItem('token'));
+    console.log(token)
+    if(!tokenValidation){
+        return (
+            <Container>
+                <header>
+                    <h1>CARREGANDO ...</h1>
+                    <ion-icon name="log-out-outline"></ion-icon>
+                </header>
+                <main>
+                    <div className='loading' />
+                </main>
+                <footer>
+                    <Link to={"/income"}>
+                        <button>
+                            <ion-icon name="add-circle-outline"></ion-icon>
+                            <h2>Nova <br/> entrada</h2>
+                        </button>
+                    </Link>
+                    <Link to={"/expense"}>
+                        <button>
+                            <ion-icon name="remove-circle-outline"></ion-icon>
+                            <h2>Nova <br/> saída</h2>
+                        </button>
+                    </Link>
+                </footer>
+            </Container>
+        );    
+    }
+    if (tokenValidation){
+        return (
+            <Container>
+                <header>
+                    <h1>Olá, Fulano</h1>
+                    <ion-icon name="log-out-outline"></ion-icon>
+                </header>
+                <main>
+                    <h3>Não há registros de <br/>entrada ou saída</h3>
+                </main>
+                <footer>
+                    <Link to={"/income"}>
+                        <button>
+                            <ion-icon name="add-circle-outline"></ion-icon>
+                            <h2>Nova <br/> entrada</h2>
+                        </button>
+                    </Link>
+                    <Link to={"/expense"}>
+                        <button>
+                            <ion-icon name="remove-circle-outline"></ion-icon>
+                            <h2>Nova <br/> saída</h2>
+                        </button>
+                    </Link>
+                </footer>
+            </Container>
+        )
+    }
+    
 }
 
 const Container = styled.div`
@@ -70,6 +106,20 @@ const Container = styled.div`
             font-size: 20px;
             color: #868686;
         }
+        .loading {
+                animation: is-rotating 1s infinite;
+                width: 50px;
+                height: 50px;
+                border: 6px solid var(--primaryColor);
+                border-top-color: #FFFFFF;
+                border-radius: 50%;
+                margin: 15px;
+            }
+            @keyframes is-rotating {
+                to {
+                    transform: rotate(1turn);
+                }
+            }
     }
     footer{
         display: flex;

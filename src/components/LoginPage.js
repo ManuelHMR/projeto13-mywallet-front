@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import joi from "joi";
 
-const URLPOST = "http://localhost:5000/signin"
+const URLPOST = "http://localhost:5000/signin";
 
 export default function LoginPage(){
 
@@ -44,7 +44,10 @@ export default function LoginPage(){
         setloading(true)
         let promise = axios.post(URLPOST, user);
         promise
-            .then(() => navigate("/balance"))
+            .then((res) => {
+                localStorage.setItem('token', JSON.stringify(res.data))
+                navigate("/balance")
+            })
             .catch(err => console.log(err))
     }
 
@@ -73,7 +76,7 @@ export default function LoginPage(){
             </Link>
         </Container>
     )
-}
+};
 
 const Container = styled.div`
     height: 100%;
